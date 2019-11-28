@@ -7,9 +7,9 @@ public class App {
     public static void main(String[] args) {
         int numberOfAtoms = 0;
         List<String> data = Parsers.getFullereneDataFromTXT("c60card.txt");
-        FullereneData fullereneData = new FullereneData(Integer.parseInt(data.get(numberOfAtoms)));
+        Fullerene fullerene = new Fullerene(Integer.parseInt(data.get(numberOfAtoms)));
         data.remove(numberOfAtoms);
-        fullereneData.fill(data);
-        System.out.println(Arrays.toString(fullereneData.getFullereneArray()));
+        fullerene.fill(data);
+        System.out.println(Arrays.toString(fullerene.getFullereneArray()));
     }
 }
