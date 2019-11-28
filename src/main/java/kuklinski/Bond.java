@@ -39,4 +39,14 @@ public class Bond {
     public void setEnergy(double energy) {
         Energy = energy;
     }
+
+    @Override
+    public String toString() {
+        return "Bond{" +
+                "atomOneIndex=" + atomOneIndex +
+                ", atomTwoIndex=" + atomTwoIndex +
+                ", distanceBetween=" + distanceBetween +
+                ", Energy=" + Energy +
+                '}';
+    }
 }

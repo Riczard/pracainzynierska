@@ -1,6 +1,5 @@
 package kuklinski;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class App {
@@ -10,6 +9,7 @@ public class App {
         Fullerene fullerene = new Fullerene(Integer.parseInt(data.get(numberOfAtoms)));
         data.remove(numberOfAtoms);
         fullerene.fill(data);
-        System.out.println(Arrays.toString(fullerene.getFullereneArray()));
+        fullerene.calculateDistanceBetweenAtoms();
+        fullerene.getBondList().forEach(System.out::println);
     }
 }

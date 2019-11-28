@@ -31,6 +31,24 @@ public class Fullerene {
         }
     }
 
+    public void calculateDistanceBetweenAtoms() {
+        for(Bond bond : bondList) {
+            CarbonNode carbonOne = fullereneArray[bond.getAtomOneIndex() - 1];
+            CarbonNode carbonTwo = fullereneArray[bond.getAtomTwoIndex() - 1];
+            Double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
+            bond.setDistanceBetween(distance);
+        }
+    }
+
+    private Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
+        int x = 0;
+        int y = 1;
+        int z = 2;
+        return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
+                Math.pow((vector2.get(y) - vector1.get(y)), 2) +
+                Math.pow((vector2.get(z) - vector1.get(z)), 2),0.5);
+    }
+
     private void addCarbonToFullereneArray(String[] carbonData) {
         int carbonIndex = Integer.parseInt(carbonData[CARBON_INDEX]);
 
@@ -100,5 +118,9 @@ public class Fullerene {
 
     public CarbonNode[] getFullereneArray() {
         return fullereneArray;
+    }
+
+    public List<Bond> getBondList() {
+        return bondList;
     }
 }
