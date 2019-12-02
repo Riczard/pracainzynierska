@@ -82,22 +82,19 @@ public class Fullerene {
         return bonds;
     }
 
-    private boolean bondExist(int indexOne, int indexTwo) {
-        for (Bond bond : bondList) {
-            return bond.getAtomOneIndex() == indexOne || bond.getAtomOneIndex() == indexTwo
-                    && (bond.getAtomTwoIndex() == indexOne || bond.getAtomTwoIndex() == indexTwo);
-        }
-        return false;
-    }
-
     private Bond getBondFromList(int carbonIndex, int neighbour) {
 
         for (Bond bond : bondList) {
-            if (bondExist(carbonIndex, neighbour)) {
+            if (bondExist(bond, carbonIndex, neighbour)) {
                 return bond;
             }
         }
         return null;
+    }
+
+    private boolean bondExist(Bond bond, int indexOne, int indexTwo) {
+        return bond.getAtomOneIndex() == indexOne && bond.getAtomTwoIndex() == indexTwo
+                    || bond.getAtomOneIndex() == indexTwo && bond.getAtomTwoIndex() == indexOne;
     }
 
 
