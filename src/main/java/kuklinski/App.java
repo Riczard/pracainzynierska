@@ -1,5 +1,6 @@
 package kuklinski;
 
+import kuklinski.model.Bond;
 import kuklinski.model.Fullerene;
 
 import java.util.List;
@@ -13,5 +14,9 @@ public class App {
         fullerene.fill(data);
         fullerene.calculateDistanceBetweenAtoms();
         fullerene.calculateEnergyForBonds();
+        fullerene.calculateTotalEnergy();
+        List<Bond> bondList = fullerene.getBondList();
+        bondList.forEach(System.out::println);
+        System.out.println("Fullerene total energy: " + fullerene.getTotalEnergy());
     }
 }

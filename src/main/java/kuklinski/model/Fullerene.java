@@ -14,6 +14,8 @@ public class Fullerene {
     private final int NEIGHBOR_2_INDEX = 7;
     private final int NEIGHBOR_3_INDEX = 8;
 
+    private double totalEnergy;
+
     private List<Bond> bondList;
 
     private CarbonNode[] fullereneArray;
@@ -122,11 +124,19 @@ public class Fullerene {
         }
     }
 
+    public void calculateTotalEnergy() {
+        this.totalEnergy = bondList.stream().mapToDouble(Bond::getEnergy).sum();
+    }
+
     public CarbonNode[] getFullereneArray() {
         return fullereneArray;
     }
 
     public List<Bond> getBondList() {
         return bondList;
+    }
+
+    public double getTotalEnergy() {
+        return totalEnergy;
     }
 }
