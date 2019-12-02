@@ -1,10 +1,10 @@
-package kuklinski;
+package kuklinski.model;
 
 public class Bond {
 
     private int atomOneIndex;
     private int atomTwoIndex;
-    private double distanceBetween;
+    private double r0;
 
     private double Energy;
 
@@ -24,12 +24,12 @@ public class Bond {
         this.atomTwoIndex = atomTwoIndex;
     }
 
-    public double getDistanceBetween() {
-        return distanceBetween;
+    public double getR0() {
+        return r0;
     }
 
-    public void setDistanceBetween(double distanceBetween) {
-        this.distanceBetween = distanceBetween;
+    public void setR0(double r0) {
+        this.r0 = r0;
     }
 
     public double getEnergy() {
@@ -40,12 +40,18 @@ public class Bond {
         Energy = energy;
     }
 
+    public void calculateEnergy(double epsilon) {
+        double r= r0;
+        double energy = epsilon*(Math.pow(this.r0/r, 12) - 2*(Math.pow(this.r0/r,6)));
+        setEnergy(energy);
+    }
+
     @Override
     public String toString() {
         return "Bond{" +
                 "atomOneIndex=" + atomOneIndex +
                 ", atomTwoIndex=" + atomTwoIndex +
-                ", distanceBetween=" + distanceBetween +
+                ", distanceBetween=" + r0 +
                 ", Energy=" + Energy +
                 '}';
     }

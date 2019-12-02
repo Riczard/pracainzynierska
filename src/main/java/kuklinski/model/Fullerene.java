@@ -1,4 +1,4 @@
-package kuklinski;
+package kuklinski.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +36,8 @@ public class Fullerene {
             CarbonNode carbonOne = fullereneArray[bond.getAtomOneIndex() - 1];
             CarbonNode carbonTwo = fullereneArray[bond.getAtomTwoIndex() - 1];
             Double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
-            bond.setDistanceBetween(distance);
+            bond.setR0(distance);
         }
-    }
-
-    private Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
-        int x = 0;
-        int y = 1;
-        int z = 2;
-        return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
-                Math.pow((vector2.get(y) - vector1.get(y)), 2) +
-                Math.pow((vector2.get(z) - vector1.get(z)), 2),0.5);
     }
 
     private void addCarbonToFullereneArray(String[] carbonData) {
@@ -114,6 +105,21 @@ public class Fullerene {
         vector.insertElementAt(Double.parseDouble(strings[1]), 1);
         vector.insertElementAt(Double.parseDouble(strings[2]), 2);
         return vector;
+    }
+
+    private Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
+        int x = 0;
+        int y = 1;
+        int z = 2;
+        return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
+                Math.pow((vector2.get(y) - vector1.get(y)), 2) +
+                Math.pow((vector2.get(z) - vector1.get(z)), 2),0.5);
+    }
+
+    public void calculateEnergyForBonds() {
+        for (Bond bond : bondList) {
+            bond.calculateEnergy(1);
+        }
     }
 
     public CarbonNode[] getFullereneArray() {

@@ -1,4 +1,4 @@
-package kuklinski;
+package kuklinski.model;
 
 import java.util.Vector;
 
