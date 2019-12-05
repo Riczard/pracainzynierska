@@ -72,8 +72,9 @@ public class Fullerene {
         for(Bond bond : bondList) {
             CarbonNode carbonOne = fullereneArray[bond.getAtomOneIndex() - 1];
             CarbonNode carbonTwo = fullereneArray[bond.getAtomTwoIndex() - 1];
-            Double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
+            double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
             bond.setR0(distance);
+            bond.setR(distance);
         }
     }
 

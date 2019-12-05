@@ -11,16 +11,12 @@ public class Bond {
     private int atomOneIndex;
     private int atomTwoIndex;
     private double r0;
-
+    private double r;
     private double forceOne;
     private double forceTwo;
-
-    private double force;
-
     private double energy;
 
     public void calculateEnergy(double epsilon) {
-        double r= r0;
         this.energy = epsilon*(Math.pow(this.r0/r, 12) - 2*(Math.pow(this.r0/r,6)));
     }
 
@@ -34,7 +30,7 @@ public class Bond {
         double deltaY = one.get(y) - two.get(y);
         double deltaZ = one.get(z) - two.get(z);
 
-        this.forceOne = -1.0 * calculateLennardPotential(r0) * (deltaX + deltaY + deltaZ);
+        this.forceOne = -1.0 * calculateLennardPotential(r) * (deltaX + deltaY + deltaZ);
     }
 
     public void calculateForceTwo(Vector<Double> one, Vector<Double> two) {
@@ -42,7 +38,7 @@ public class Bond {
         double deltaY = two.get(y) - one.get(y);
         double deltaZ = two.get(z) - one.get(z);
 
-        this.forceTwo = -1.0 * calculateLennardPotential(r0) * (deltaX + deltaY + deltaZ);
+        this.forceTwo = -1.0 * calculateLennardPotential(r) * (deltaX + deltaY + deltaZ);
     }
 
     public double calculateLennardPotential(double r) {
@@ -91,13 +87,19 @@ public class Bond {
         return forceTwo;
     }
 
+    public void setR(double r) {
+        this.r = r;
+    }
+
     @Override
     public String toString() {
         return "Bond{" +
-                "atomOneIndex=" + atomOneIndex +
+                ", atomOneIndex=" + atomOneIndex +
                 ", atomTwoIndex=" + atomTwoIndex +
-                ", distanceBetween=" + r0 +
-                ", Energy=" + energy +
+                ", r0=" + r0 +
+                ", forceOne=" + forceOne +
+                ", forceTwo=" + forceTwo +
+                ", energy=" + energy +
                 '}';
     }
 }
