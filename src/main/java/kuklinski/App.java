@@ -15,8 +15,9 @@ public class App {
         fullerene.calculateDistanceBetweenAtoms();
         fullerene.calculateEnergyForBonds();
         fullerene.calculateTotalEnergy();
-        List<Bond> bondList = fullerene.getBondList();
-        bondList.forEach(System.out::println);
+        fullerene.calculateForce();
+        fullerene.calculateTotalForce();
+        System.out.println("Fullerene total force: " + fullerene.getTotalForce());
         System.out.println("Fullerene total energy: " + fullerene.getTotalEnergy());
     }
 }

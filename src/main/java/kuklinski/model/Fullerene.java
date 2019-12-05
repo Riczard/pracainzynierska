@@ -15,7 +15,7 @@ public class Fullerene {
     private final int NEIGHBOR_3_INDEX = 8;
 
     private double totalEnergy;
-
+    private double totalForce;
     private List<Bond> bondList;
 
     private CarbonNode[] fullereneArray;
@@ -30,15 +30,6 @@ public class Fullerene {
             String substring = carbonString.substring(2); //txt tiles have 2 whitespaces on start
             String[] carbonData = substring.split("\\s+");
             addCarbonToFullereneArray(carbonData);
-        }
-    }
-
-    public void calculateDistanceBetweenAtoms() {
-        for(Bond bond : bondList) {
-            CarbonNode carbonOne = fullereneArray[bond.getAtomOneIndex() - 1];
-            CarbonNode carbonTwo = fullereneArray[bond.getAtomTwoIndex() - 1];
-            Double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
-            bond.setR0(distance);
         }
     }
 
@@ -59,11 +50,6 @@ public class Fullerene {
         fullereneArray[carbonNode.getNumber() - 1] = carbonNode; // - 1 because array index start from 0
     }
 
-    private void setActualVector(String[] carbonData, CarbonNode carbonNode) {
-        carbonNode.setActualVector(changeStringsToVector(
-                carbonData[X_POS_INDEX], carbonData[Y_POS_INDEX], carbonData[Z_POS_INDEX]));
-    }
-
     private Bond[] createBonds(int carbonIndex, int[] neighbours) {
 
         Bond[] bonds = new Bond[3];
@@ -82,6 +68,57 @@ public class Fullerene {
         return bonds;
     }
 
+    public void calculateDistanceBetweenAtoms() {
+        for(Bond bond : bondList) {
+            CarbonNode carbonOne = fullereneArray[bond.getAtomOneIndex() - 1];
+            CarbonNode carbonTwo = fullereneArray[bond.getAtomTwoIndex() - 1];
+            Double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
+            bond.setR0(distance);
+        }
+    }
+
+    private Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
+        int x = 0;
+        int y = 1;
+        int z = 2;
+        return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
+                Math.pow((vector2.get(y) - vector1.get(y)), 2) +
+                Math.pow((vector2.get(z) - vector1.get(z)), 2),0.5);
+    }
+
+
+    public void calculateEnergyForBonds() {
+        for (Bond bond : bondList) {
+            bond.calculateEnergy(1);
+        }
+    }
+
+    public void calculateTotalEnergy() {
+        this.totalEnergy = bondList.stream().mapToDouble(Bond::getEnergy).sum();
+    }
+
+    public void calculateForce() {
+        for(Bond bond : bondList) {
+            Vector<Double> one = fullereneArray[bond.getAtomOneIndex() - 1].getActualVector();
+            Vector<Double> two = fullereneArray[bond.getAtomTwoIndex() - 1].getActualVector();
+            bond.calculateEnergy(one, two);
+        }
+    }
+
+    public void calculateTotalForce() {
+        double totalForceOne = bondList.stream().mapToDouble(Bond::getForceOne).sum();
+        double totalForceTwo = bondList.stream().mapToDouble(Bond::getForceTwo).sum();
+        this.totalForce = totalForceOne + totalForceTwo;
+    }
+
+    private Vector<Double> changeStringsToVector(String... strings) {
+        Vector<Double> vector = new Vector<>(3);
+        vector.insertElementAt(Double.parseDouble(strings[0]), 0);
+        vector.insertElementAt(Double.parseDouble(strings[1]), 1);
+        vector.insertElementAt(Double.parseDouble(strings[2]), 2);
+        return vector;
+    }
+
     private Bond getBondFromList(int carbonIndex, int neighbour) {
 
         for (Bond bond : bondList) {
@@ -94,35 +131,12 @@ public class Fullerene {
 
     private boolean bondExist(Bond bond, int indexOne, int indexTwo) {
         return bond.getAtomOneIndex() == indexOne && bond.getAtomTwoIndex() == indexTwo
-                    || bond.getAtomOneIndex() == indexTwo && bond.getAtomTwoIndex() == indexOne;
+                || bond.getAtomOneIndex() == indexTwo && bond.getAtomTwoIndex() == indexOne;
     }
 
-
-    private Vector<Double> changeStringsToVector(String... strings) {
-        Vector<Double> vector = new Vector<>(3);
-        vector.insertElementAt(Double.parseDouble(strings[0]), 0);
-        vector.insertElementAt(Double.parseDouble(strings[1]), 1);
-        vector.insertElementAt(Double.parseDouble(strings[2]), 2);
-        return vector;
-    }
-
-    private Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
-        int x = 0;
-        int y = 1;
-        int z = 2;
-        return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
-                Math.pow((vector2.get(y) - vector1.get(y)), 2) +
-                Math.pow((vector2.get(z) - vector1.get(z)), 2),0.5);
-    }
-
-    public void calculateEnergyForBonds() {
-        for (Bond bond : bondList) {
-            bond.calculateEnergy(1);
-        }
-    }
-
-    public void calculateTotalEnergy() {
-        this.totalEnergy = bondList.stream().mapToDouble(Bond::getEnergy).sum();
+    private void setActualVector(String[] carbonData, CarbonNode carbonNode) {
+        carbonNode.setActualVector(changeStringsToVector(
+                carbonData[X_POS_INDEX], carbonData[Y_POS_INDEX], carbonData[Z_POS_INDEX]));
     }
 
     public CarbonNode[] getFullereneArray() {
@@ -135,5 +149,9 @@ public class Fullerene {
 
     public double getTotalEnergy() {
         return totalEnergy;
+    }
+
+    public double getTotalForce() {
+        return totalForce;
     }
 }
