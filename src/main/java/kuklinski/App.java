@@ -1,8 +1,11 @@
 package kuklinski;
 
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import kuklinski.model.Fullerene;
 import kuklinski.utils.FXMLUtils;
@@ -29,8 +32,13 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         Pane pane = FXMLUtils.fxmlLoader(MAIN_PANE);
         Scene scene = new Scene(pane);
+        scene.setCamera(new PerspectiveCamera());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Fullerene");
         primaryStage.show();
+    }
+
+    public static Rectangle2D getScreen() {
+        return Screen.getPrimary().getBounds();
     }
 }
