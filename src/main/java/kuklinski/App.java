@@ -1,8 +1,8 @@
 package kuklinski;
 
-import kuklinski.model.Bond;
 import kuklinski.model.Fullerene;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class App {
@@ -15,16 +15,8 @@ public class App {
         fullerene.calculateDistanceBetweenAtoms();
         fullerene.calculateEnergyForBonds();
         fullerene.calculateTotalEnergy();
-        fullerene.calculateForce();
-        fullerene.calculateTotalForce();
-        List<Bond> bondList = fullerene.getBondList();
-        bondList.forEach(System.out::println);
-        System.out.println("Fullerene total force: " + fullerene.getTotalForce());
-        System.out.println("Fullerene total energy: " + fullerene.getTotalEnergy());
-        Bond bond = fullerene.getBondList().get(0);
-        bond.setR(bond.r0() + 1);
-        fullerene.calculateForce();
-        fullerene.calculateTotalForce();
-        System.out.println("Fullerene total force: " + fullerene.getTotalForce());
+        fullerene.calculateBondForce();
+        fullerene.calculateCarbonForce();
+        System.out.println(Arrays.toString(fullerene.getFullereneArray()));
     }
 }

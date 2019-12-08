@@ -15,7 +15,6 @@ public class Fullerene {
     private final int NEIGHBOR_3_INDEX = 8;
 
     private double totalEnergy;
-    private double totalForce;
     private List<Bond> bondList;
 
     private CarbonNode[] fullereneArray;
@@ -69,7 +68,7 @@ public class Fullerene {
     }
 
     public void calculateDistanceBetweenAtoms() {
-        for(Bond bond : bondList) {
+        for (Bond bond : bondList) {
             CarbonNode carbonOne = fullereneArray[bond.getAtomOneIndex() - 1];
             CarbonNode carbonTwo = fullereneArray[bond.getAtomTwoIndex() - 1];
             double distance = calculateDistance(carbonOne.getActualVector(), carbonTwo.getActualVector());
@@ -84,7 +83,7 @@ public class Fullerene {
         int z = 2;
         return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
                 Math.pow((vector2.get(y) - vector1.get(y)), 2) +
-                Math.pow((vector2.get(z) - vector1.get(z)), 2),0.5);
+                Math.pow((vector2.get(z) - vector1.get(z)), 2), 0.5);
     }
 
 
@@ -98,18 +97,18 @@ public class Fullerene {
         this.totalEnergy = bondList.stream().mapToDouble(Bond::getEnergy).sum();
     }
 
-    public void calculateForce() {
-        for(Bond bond : bondList) {
-            Vector<Double> one = fullereneArray[bond.getAtomOneIndex() - 1].getActualVector();
-            Vector<Double> two = fullereneArray[bond.getAtomTwoIndex() - 1].getActualVector();
-            bond.calculateEnergy(one, two);
+    public void calculateBondForce() {
+        for(Bond bond: bondList) {
+            Vector<Double> positionOne = fullereneArray[bond.getAtomOneIndex() -1].getActualVector();
+            Vector<Double> positionTwo = fullereneArray[bond.getAtomTwoIndex() -1].getActualVector();
+            bond.calculateForce(positionOne, positionTwo);
         }
     }
 
-    public void calculateTotalForce() {
-        double totalForceOne = bondList.stream().mapToDouble(Bond::getForceOne).sum();
-        double totalForceTwo = bondList.stream().mapToDouble(Bond::getForceTwo).sum();
-        this.totalForce = totalForceOne + totalForceTwo;
+    public void calculateCarbonForce() {
+        for(CarbonNode carbonNode: fullereneArray){
+            carbonNode.calculateForce();
+        }
     }
 
     private Vector<Double> changeStringsToVector(String... strings) {
@@ -152,7 +151,4 @@ public class Fullerene {
         return totalEnergy;
     }
 
-    public double getTotalForce() {
-        return totalForce;
-    }
 }
