@@ -72,6 +72,14 @@ public class CarbonNode {
         this.force.add(2, Fz);
     }
 
+    public void calculateEnergy() {
+        double energy = 0;
+        for(Bond bond : bonds) {
+            energy += bond.getEnergy();
+        }
+        this.E = energy;
+    }
+
     @Override
     public String toString() {
         return "CarbonNode{" +

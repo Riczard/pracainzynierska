@@ -8,6 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+//  C   14    0.684800    0.000000   -3.449997    1   18   39   41
+//  C   24    0.684800    0.000000    3.449997    1   23   25   51
+//  C   41   -0.684800    0.000000   -3.449997    1   14   42   45
+//  C   51   -0.684800    0.000000    3.449997    1   24   30   32
+
+
 public class App {
     public static void main(String[] args) {
         int numberOfAtoms = 0;
@@ -18,6 +24,7 @@ public class App {
         fullerene.calculateDistanceBetweenAtoms();
         fullerene.calculateEnergyForBonds();
         fullerene.calculateTotalEnergy();
+        fullerene.calculateCarbonEnergy();
         fullerene.calculateBondForce();
         fullerene.calculateCarbonForce();
         System.out.println(Arrays.toString(fullerene.getFullereneArray()));

@@ -93,6 +93,12 @@ public class Fullerene {
         }
     }
 
+    public void calculateCarbonEnergy() {
+        for(CarbonNode carbonNode: fullereneArray){
+            carbonNode.calculateEnergy();
+        }
+    }
+
     public void calculateTotalEnergy() {
         this.totalEnergy = bondList.stream().mapToDouble(Bond::getEnergy).sum();
     }
