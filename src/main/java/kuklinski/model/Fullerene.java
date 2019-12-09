@@ -77,7 +77,7 @@ public class Fullerene {
         }
     }
 
-    private Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
+    public Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
         int x = 0;
         int y = 1;
         int z = 2;
