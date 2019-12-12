@@ -21,7 +21,14 @@ public class CarbonNode {
         this.actualVector = new Vector<>(3);
         this.previousVector = new Vector<>(3);
         this.F = new Vector<>(3);
+        create0Vector();
         this.bonds = new Bond[3];
+    }
+
+    private void create0Vector() {
+        this.F.add(0.0);
+        this.F.add(0.0);
+        this.F.add(0.0);
     }
 
     public void calculateR0() {
@@ -57,13 +64,13 @@ public class CarbonNode {
             Fy += calculateForce(bond, deltaY);
             Fz += calculateForce(bond, deltaZ);
         }
-        this.F.add(x, Fx);
-        this.F.add(y, Fy);
-        this.F.add(z, Fz);
+        this.F.set(x, Fx);
+        this.F.set(y, Fy);
+        this.F.set(z, Fz);
     }
 
-    private double calculateForce(Bond bond, double deltaX) {
-        return calculateLennardPotential(bond.getR0(), bond.getR()) * deltaX;
+    private double calculateForce(Bond bond, double delta) {
+        return calculateLennardPotential(bond.getR0(), bond.getR()) * delta;
     }
 
     private double calculateLennardPotential(double r0, double r) {

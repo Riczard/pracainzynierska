@@ -23,10 +23,22 @@ public class App {
         fullerene.calculateCarbonEnergy();
         fullerene.calculateCarbonForce();
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
+
         System.out.println(Arrays.toString(fullereneArray));
-
-
+        setNewR(fullerene);
     }
 
-
+    private static void setNewR(Fullerene fullerene) {
+        CarbonNode[] fullereneArray = fullerene.getFullereneArray();
+        CarbonNode carbonNode = fullereneArray[0];
+        carbonNode.getActualVector().set(0, carbonNode.getActualVector().get(0) + 0.1);
+        Bond[] bonds = carbonNode.getBonds();
+        for(Bond bond : bonds) {
+            Double r = bond.calculateDistance(carbonNode.getActualVector(), bond.getCarbonNode().getActualVector());
+            bond.setR(r);
+        }
+        fullerene.calculateCarbonEnergy();
+        fullerene.calculateCarbonForce();
+        System.out.println(Arrays.toString(fullereneArray));
+    }
 }

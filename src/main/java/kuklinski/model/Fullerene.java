@@ -79,7 +79,7 @@ public class Fullerene {
         Bond[] bonds = carbonNode.getBonds();
         bonds[0] = new Bond(fullereneArray[neighboursIndex[0] - 1]);
         bonds[1] = new Bond(fullereneArray[neighboursIndex[1] - 1]);
-        bonds[2] = new Bond(fullereneArray[neighboursIndex[2] - 2]);
+        bonds[2] = new Bond(fullereneArray[neighboursIndex[2] - 1]);
     }
 
     private void setCarbonVector(String[] carbonData, CarbonNode carbonNode) {

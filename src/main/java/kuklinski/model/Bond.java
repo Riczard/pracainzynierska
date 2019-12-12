@@ -22,9 +22,11 @@ public class Bond {
         int x = 0;
         int y = 1;
         int z = 2;
-        return Math.pow(Math.pow((vector2.get(x) - vector1.get(x)), 2) +
+        return Math.pow(
+                Math.pow((vector2.get(x) - vector1.get(x)), 2) +
                 Math.pow((vector2.get(y) - vector1.get(y)), 2) +
-                Math.pow((vector2.get(z) - vector1.get(z)), 2), 0.5);
+                Math.pow((vector2.get(z) - vector1.get(z)), 2)
+                , 0.5);
     }
 
 
