@@ -18,14 +18,16 @@ public class App {
         Fullerene fullerene = new Fullerene(Integer.parseInt(data.get(numberOfAtoms)));
         data.remove(numberOfAtoms);
         fullerene.fill(data);
+//        fullerene.calculateR();
         fullerene.calculateR0();
-        fullerene.setRequalsR0();
         fullerene.calculateCarbonEnergy();
         fullerene.calculateCarbonForce();
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
+        Bond[] bonds = fullereneArray[0].getBonds();
+        Arrays.stream(bonds).forEach(bond -> System.out.println(bond.getR0()));
 
         System.out.println(Arrays.toString(fullereneArray));
-        setNewR(fullerene);
+//        setNewR(fullerene);
     }
 
     private static void setNewR(Fullerene fullerene) {
@@ -39,6 +41,10 @@ public class App {
         }
         fullerene.calculateCarbonEnergy();
         fullerene.calculateCarbonForce();
+        Bond[] neighbours = carbonNode.getBonds();
+        for(Bond bond : neighbours) {
+            System.out.println("CarbonNode{index=" + bond.getCarbonNode().getIndex() +  " F" + bond.getF());
+        }
         System.out.println(Arrays.toString(fullereneArray));
     }
 }

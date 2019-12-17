@@ -30,15 +30,15 @@ public class Fullerene {
         }
     }
 
-    public void calculateR0() {
+    public void calculateR() {
         for (CarbonNode node : fullereneArray) {
-            node.calculateR0();
+            node.calculateR();
         }
     }
 
-    public void setRequalsR0() {
+    public void calculateR0() {
         for (CarbonNode node : fullereneArray) {
-            node.setRequalsR0();
+            node.calculateR0();
         }
     }
 

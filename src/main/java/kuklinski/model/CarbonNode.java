@@ -33,20 +33,20 @@ public class CarbonNode {
 
     public void calculateR0() {
         for(Bond bond : bonds) {
-            bond.calculateR0(actualVector);
+            bond.calculateR(actualVector);
         }
     }
 
-    public void setRequalsR0(){
+    public void calculateR() {
         for(Bond bond : bonds) {
-            bond.setR(bond.getR0());
+//            bond.calculateR0(actualVector);
         }
     }
 
     public void calculateEnergy() {
         double energy = 0;
         for (Bond bond : bonds) {
-            bond.calculateEnergy(1);
+            bond.calculateEnergy();
             energy += bond.getEnergy();
         }
         this.E = energy;
@@ -57,26 +57,15 @@ public class CarbonNode {
         double Fy = 0;
         double Fz = 0;
         for(Bond bond: bonds) {
-            double deltaX = actualVector.get(x) - bond.getCarbonNode().getActualVector().get(x);
-            double deltaY = actualVector.get(y) - bond.getCarbonNode().getActualVector().get(y);
-            double deltaZ = actualVector.get(z) - bond.getCarbonNode().getActualVector().get(z);
-            Fx += calculateForce(bond, deltaX);
-            Fy += calculateForce(bond, deltaY);
-            Fz += calculateForce(bond, deltaZ);
+            bond.calculateForce(actualVector);
+
+            Fx += bond.getFx();
+            Fy += bond.getFy();
+            Fz += bond.getFz();
         }
         this.F.set(x, Fx);
         this.F.set(y, Fy);
         this.F.set(z, Fz);
-    }
-
-    private double calculateForce(Bond bond, double delta) {
-        return calculateLennardPotential(bond.getR0(), bond.getR()) * delta;
-    }
-
-    private double calculateLennardPotential(double r0, double r) {
-        double sigma = r0 * Math.pow(2, (-1 / 6.0));
-        return 3 * Math.pow(r0, 6) / Math.pow(r, 14) * (-Math.pow(r0, 6) + Math.pow(r, 6));
-//        return 6* Math.pow(sigma, 6) / Math.pow(r, 14) * (-2 * Math.pow(sigma, 6) + Math.pow(r, 6));
     }
 
     public int getIndex() {
