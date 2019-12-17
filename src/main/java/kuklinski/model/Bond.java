@@ -58,9 +58,9 @@ public class Bond {
     public void calculateForce(Vector<Double> vector) {
         calculateLennardPotential();
 
-        double deltaX = vector.get(x) - carbonNode.getActualVector().get(x);
-        double deltaY = vector.get(y) - carbonNode.getActualVector().get(y);
-        double deltaZ = vector.get(z) - carbonNode.getActualVector().get(z);
+        double deltaX = carbonNode.getActualVector().get(x) - vector.get(x);
+        double deltaY = carbonNode.getActualVector().get(y) - vector.get(y);
+        double deltaZ = carbonNode.getActualVector().get(z) - vector.get(z);
         double Fx = this.lennardPotential * deltaX;
         double Fy = this.lennardPotential * deltaY;
         double Fz = this.lennardPotential * deltaZ;
