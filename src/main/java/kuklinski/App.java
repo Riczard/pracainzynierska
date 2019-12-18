@@ -39,9 +39,11 @@ public class App {
 
         List<Double> firstCarbonVector = firstCarbon.getActualVector();
         firstCarbon.setPreviousVectorSameLikeActual();
-        firstCarbonVector.set(2, firstCarbonVector.get(2) + 0.05);
+        double v = firstCarbonVector.get(2) + 0.05;
+        firstCarbonVector.set(2, v);
+        firstCarbon.getActualVector().set(2, v);
 
-        Vector<Double> secondCarbonVector = (Vector<Double>) firstCarbon.getActualVector();
+        List<Double> secondCarbonVector = secondCarbon.getActualVector();
         secondCarbon.setPreviousVectorSameLikeActual();
         secondCarbonVector.set(2, secondCarbonVector.get(2) - 0.05);
 
@@ -56,27 +58,24 @@ public class App {
         secondCarbon.calculateForce();
 
 
-//        for(int i = 0 ; i < 6; i++) {
-//
-//            for (CarbonNode carbon : fullereneArray) {
-//
-//                if (carbon.isToCalculate()) {
-//                    carbon.calculateNewPosition();
-//                    carbon.calculateR();
-//                    carbon.setPreviousVector(carbon.getActualVector());
-//                    carbon.setToCalculate(false);
-//                    carbon.setNeighboursToCalculate(true);
-//                    carbon.calculateEnergy();
-//                    carbon.calculateForce();
-//                }
-//
-//
-//
-//                System.out.println(Arrays.toString(carbon.getBonds()));
-//
-//            }
-//        }
-        System.out.println(Arrays.toString(fullereneArray));
+        for(int i = 0 ; i < 3; i++) {
+
+            for (CarbonNode carbon : fullereneArray) {
+
+                if (carbon.isToCalculate()) {
+                    carbon.calculateNewPosition();
+                    carbon.calculateR();
+                    carbon.setPreviousVector(carbon.getActualVector());
+                    carbon.setToCalculate(false);
+                    carbon.setNeighboursToCalculate(true);
+                    carbon.calculateEnergy();
+                    carbon.calculateForce();
+                }
+
+            }
+            System.out.println(Arrays.toString(fullereneArray));
+        }
+
     }
 
 }

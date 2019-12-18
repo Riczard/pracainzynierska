@@ -25,18 +25,19 @@ public class CarbonNode {
         this.previousVector = new ArrayList<>(3);
         this.F = new ArrayList<>(3);
         this.bonds = new Bond[3];
+        fillListsWith0Elements();
     }
 
-    private void create0Vector() {
-        this.F.add(0.0);
-        this.F.add(0.0);
-        this.F.add(0.0);
-        this.previousVector.add(0.0);
-        this.previousVector.add(0.0);
-        this.previousVector.add(0.0);
+    private void fillListsWith0Elements() {
         this.actualVector.add(0.0);
         this.actualVector.add(0.0);
         this.actualVector.add(0.0);
+        this.previousVector.add(0.0);
+        this.previousVector.add(0.0);
+        this.previousVector.add(0.0);
+        this.F.add(0.0);
+        this.F.add(0.0);
+        this.F.add(0.0);
     }
 
     public void calculateR0() {
