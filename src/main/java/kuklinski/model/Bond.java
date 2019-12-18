@@ -1,5 +1,7 @@
 package kuklinski.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class Bond {
@@ -13,27 +15,23 @@ public class Bond {
     private double r0;
     private double r;
     private double energy;
-    private Vector<Double> F;
+    private List<Double> F;
     private double lennardPotential;
 
     public Bond(CarbonNode carbonNode) {
         this.carbonNode = carbonNode;
-        createEmptyVector();
+        this.F = new ArrayList<>(3);
     }
 
-    private void createEmptyVector() {
-        this.F = new Vector<>(3);
-        this.F.add(0.0);
-        this.F.add(0.0);
-        this.F.add(0.0);
-    }
-
-    public void calculateR(Vector<Double> vector) {
+    public void calculateR0(List<Double> vector) {
         this.r0 = calculateDistance(vector, carbonNode.getActualVector());
-        this.r = r0;
     }
 
-    public Double calculateDistance(Vector<Double> vector1, Vector<Double> vector2) {
+    public void calculateR(List<Double> vector) {
+        this.r = calculateDistance(vector, carbonNode.getActualVector());
+    }
+
+    public Double calculateDistance(List<Double> vector1, List<Double> vector2) {
         int x = 0;
         int y = 1;
         int z = 2;
@@ -48,14 +46,16 @@ public class Bond {
     public void calculateEnergy() {
         double epsilon;
         if(r0 == 1.3696) {
-            epsilon = 4.858;
+//            epsilon = 4.858;
+            epsilon = 1.06816;
         }else {
-            epsilon = 4.548;
+//            epsilon = 4.548;
+            epsilon = 1;
         }
         this.energy = epsilon * (Math.pow(this.r0 / r, 12) - 2 * (Math.pow(this.r0 / r, 6)));
     }
 
-    public void calculateForce(Vector<Double> vector) {
+    public void calculateForce(List<Double> vector) {
         calculateLennardPotential();
 
         double deltaX = carbonNode.getActualVector().get(x) - vector.get(x);
@@ -64,9 +64,9 @@ public class Bond {
         double Fx = this.lennardPotential * deltaX;
         double Fy = this.lennardPotential * deltaY;
         double Fz = this.lennardPotential * deltaZ;
-        this.F.set(x, Fx);
-        this.F.set(y, Fy);
-        this.F.set(z, Fz);
+        this.F.add(x, Fx);
+        this.F.add(y, Fy);
+        this.F.add(z, Fz);
     }
 
     private void calculateLennardPotential() {
@@ -118,11 +118,22 @@ public class Bond {
         return F.get(z);
     }
 
-    public Vector<Double> getF() {
+    public List<Double> getF() {
         return F;
     }
 
-    public void setF(Vector<Double> f) {
+    public void setF(List<Double> f) {
         F = f;
+    }
+
+    @Override
+    public String toString() {
+        return "Bond{" +
+                "carbonNode=" + carbonNode.getIndex() +
+                ", r0=" + r0 +
+                ", r=" + r +
+                ", energy=" + energy +
+                ", F=" + F +
+                '}';
     }
 }

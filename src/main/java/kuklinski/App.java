@@ -4,6 +4,7 @@ import kuklinski.model.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 //  C   14    0.684800    0.000000   -3.449997    1   18   39   41
 //  C   24    0.684800    0.000000    3.449997    1   23   25   51
@@ -18,33 +19,64 @@ public class App {
         Fullerene fullerene = new Fullerene(Integer.parseInt(data.get(numberOfAtoms)));
         data.remove(numberOfAtoms);
         fullerene.fill(data);
-//        fullerene.calculateR();
         fullerene.calculateR0();
+        fullerene.calculateR();
         fullerene.calculateCarbonEnergy();
         fullerene.calculateCarbonForce();
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
         Bond[] bonds = fullereneArray[0].getBonds();
-        Arrays.stream(bonds).forEach(bond -> System.out.println(bond.getR0()));
 
-        System.out.println(Arrays.toString(fullereneArray));
-//        setNewR(fullerene);
+
+//        System.out.println(Arrays.toString(fullereneArray));
+
+        changePosition(fullerene);
     }
 
-    private static void setNewR(Fullerene fullerene) {
+    private static void changePosition(Fullerene fullerene) {
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
-        CarbonNode carbonNode = fullereneArray[0];
-        carbonNode.getActualVector().set(0, carbonNode.getActualVector().get(0) - 0.1);
-        Bond[] bonds = carbonNode.getBonds();
-        for(Bond bond : bonds) {
-            Double r = bond.calculateDistance(carbonNode.getActualVector(), bond.getCarbonNode().getActualVector());
-            bond.setR(r);
-        }
-        fullerene.calculateCarbonEnergy();
-        fullerene.calculateCarbonForce();
-        Bond[] neighbours = carbonNode.getBonds();
-        for(Bond bond : neighbours) {
-            System.out.println("CarbonNode{index=" + bond.getCarbonNode().getIndex() +  " F" + bond.getF());
-        }
+        CarbonNode firstCarbon = fullereneArray[13];
+        CarbonNode secondCarbon = fullereneArray[23];
+
+        List<Double> firstCarbonVector = firstCarbon.getActualVector();
+        firstCarbon.setPreviousVectorSameLikeActual();
+        firstCarbonVector.set(2, firstCarbonVector.get(2) + 0.05);
+
+        Vector<Double> secondCarbonVector = (Vector<Double>) firstCarbon.getActualVector();
+        secondCarbon.setPreviousVectorSameLikeActual();
+        secondCarbonVector.set(2, secondCarbonVector.get(2) - 0.05);
+
+        firstCarbon.setNeighboursToCalculate(true);
+        secondCarbon.setNeighboursToCalculate(true);
+
+        firstCarbon.calculateR();
+        firstCarbon.calculateEnergy();
+        firstCarbon.calculateForce();
+        secondCarbon.calculateR();
+        secondCarbon.calculateEnergy();
+        secondCarbon.calculateForce();
+
+
+//        for(int i = 0 ; i < 6; i++) {
+//
+//            for (CarbonNode carbon : fullereneArray) {
+//
+//                if (carbon.isToCalculate()) {
+//                    carbon.calculateNewPosition();
+//                    carbon.calculateR();
+//                    carbon.setPreviousVector(carbon.getActualVector());
+//                    carbon.setToCalculate(false);
+//                    carbon.setNeighboursToCalculate(true);
+//                    carbon.calculateEnergy();
+//                    carbon.calculateForce();
+//                }
+//
+//
+//
+//                System.out.println(Arrays.toString(carbon.getBonds()));
+//
+//            }
+//        }
         System.out.println(Arrays.toString(fullereneArray));
     }
+
 }
