@@ -1,5 +1,6 @@
 package kuklinski.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -54,6 +55,14 @@ public class Fullerene {
         }
     }
 
+    public void calculateTotalEnergy() {
+        this.totalEnergy = 0.0;
+        for (CarbonNode node : fullereneArray) {
+            this.totalEnergy += node.getE();
+        }
+        this.totalEnergy = this.totalEnergy / 2.0;
+    }
+
     private void createEmptyCarbons() {
         for (int i = 0; i < fullereneArray.length; i++) {
             fullereneArray[i] = new CarbonNode(i + 1);
@@ -87,12 +96,16 @@ public class Fullerene {
                 carbonData[X_POS_INDEX], carbonData[Y_POS_INDEX], carbonData[Z_POS_INDEX]));
     }
 
-    private Vector<Double> changeStringsToVector(String... strings) {
-        Vector<Double> vector = new Vector<>(3);
-        vector.insertElementAt(Double.parseDouble(strings[0]), 0);
-        vector.insertElementAt(Double.parseDouble(strings[1]), 1);
-        vector.insertElementAt(Double.parseDouble(strings[2]), 2);
+    private List<Double> changeStringsToVector(String... strings) {
+        List<Double> vector = new ArrayList<>(3);
+        vector.add(Double.parseDouble(strings[0]));
+        vector.add(Double.parseDouble(strings[1]));
+        vector.add(Double.parseDouble(strings[2]));
         return vector;
+    }
+
+    public double getTotalEnergy() {
+        return totalEnergy;
     }
 
     public CarbonNode[] getFullereneArray() {

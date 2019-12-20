@@ -2,7 +2,6 @@ package kuklinski.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class Bond {
 
@@ -21,6 +20,13 @@ public class Bond {
     public Bond(CarbonNode carbonNode) {
         this.carbonNode = carbonNode;
         this.F = new ArrayList<>(3);
+        createEmptyFList();
+    }
+
+    private void createEmptyFList() {
+        this.F.add(0.0);
+        this.F.add(0.0);
+        this.F.add(0.0);
     }
 
     public void calculateR0(List<Double> vector) {
@@ -37,20 +43,20 @@ public class Bond {
         int z = 2;
         return Math.pow(
                 Math.pow((vector2.get(x) - vector1.get(x)), 2) +
-                Math.pow((vector2.get(y) - vector1.get(y)), 2) +
-                Math.pow((vector2.get(z) - vector1.get(z)), 2)
+                        Math.pow((vector2.get(y) - vector1.get(y)), 2) +
+                        Math.pow((vector2.get(z) - vector1.get(z)), 2)
                 , 0.5);
     }
 
 
     public void calculateEnergy() {
         double epsilon;
-        if(r0 == 1.3696) {
-//            epsilon = 4.858;
-            epsilon = 1.06816;
-        }else {
-//            epsilon = 4.548;
-            epsilon = 1;
+        if (r0 == 1.3696) {
+            epsilon = 4.858;
+//            epsilon = 1.06816;
+        } else {
+            epsilon = 4.548;
+//            epsilon = 1;
         }
         this.energy = epsilon * (Math.pow(this.r0 / r, 12) - 2 * (Math.pow(this.r0 / r, 6)));
     }
@@ -64,9 +70,9 @@ public class Bond {
         double Fx = this.lennardPotential * deltaX;
         double Fy = this.lennardPotential * deltaY;
         double Fz = this.lennardPotential * deltaZ;
-        this.F.add(x, Fx);
-        this.F.add(y, Fy);
-        this.F.add(z, Fz);
+        this.F.set(x, Fx);
+        this.F.set(y, Fy);
+        this.F.set(z, Fz);
     }
 
     private void calculateLennardPotential() {
@@ -114,6 +120,7 @@ public class Bond {
     public double getFy() {
         return F.get(y);
     }
+
     public double getFz() {
         return F.get(z);
     }

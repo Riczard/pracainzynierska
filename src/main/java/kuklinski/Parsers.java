@@ -1,6 +1,7 @@
 package kuklinski;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -19,5 +20,17 @@ public class Parsers {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public static void createTxt(List<String> listToPrint) {
+        try {
+            FileWriter writer = new FileWriter("data");
+            for (String str: listToPrint){
+                writer.write(str);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

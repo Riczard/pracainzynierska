@@ -78,7 +78,7 @@ public class CarbonNode {
     }
 
     public void calculateNewPosition() {
-        double p = 0.1;
+        double p = 0.001;
         double newX = F.get(x) * p + actualVector.get(x);
         double newY = F.get(y) * p + actualVector.get(y);
         double newZ = F.get(z) * p + actualVector.get(z);
