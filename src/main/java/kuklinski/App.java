@@ -43,7 +43,7 @@ public class App {
         listToPrint.add(heading);
         listToPrint.add(getFullereneData(fullerene));
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 1000; i++) {
             listToPrint.add(i + 1 + "\n");
 
             fullerene.calculateCarbonForce();

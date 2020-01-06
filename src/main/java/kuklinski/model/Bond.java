@@ -53,23 +53,27 @@ public class Bond {
         double epsilon;
         if (r0 == 1.3696) {
             epsilon = 4.858;
-//            epsilon = 1.06816;
         } else {
             epsilon = 4.548;
-//            epsilon = 1;
         }
         this.energy = epsilon * (Math.pow(this.r0 / r, 12) - 2 * (Math.pow(this.r0 / r, 6)));
     }
 
     public void calculateForce(List<Double> vector) {
         calculateLennardPotential();
-
+        double epsilon;
+        if (r0 == 1.3696) {
+            epsilon = 4.858;
+        } else {
+            epsilon = 4.548;
+        }
         double deltaX = carbonNode.getActualVector().get(x) - vector.get(x);
         double deltaY = carbonNode.getActualVector().get(y) - vector.get(y);
         double deltaZ = carbonNode.getActualVector().get(z) - vector.get(z);
-        double Fx = this.lennardPotential * deltaX;
-        double Fy = this.lennardPotential * deltaY;
-        double Fz = this.lennardPotential * deltaZ;
+        double Fx = this.lennardPotential * deltaX * epsilon;
+        double Fy = this.lennardPotential * deltaY * epsilon;
+        double Fz = this.lennardPotential * deltaZ * epsilon;
+
         this.F.set(x, Fx);
         this.F.set(y, Fy);
         this.F.set(z, Fz);
