@@ -63,6 +63,18 @@ public class Fullerene {
         this.totalEnergy = this.totalEnergy / 2.0;
     }
 
+    public void setPrevVectorSameLikeActual() {
+        for (CarbonNode node : fullereneArray) {
+            node.setPreviousVectorSameLikeActual();
+        }
+    }
+
+    public void calculateNewPositions() {
+        for (CarbonNode node : fullereneArray) {
+            node.calculateNewPosition();
+        }
+    }
+
     private void createEmptyCarbons() {
         for (int i = 0; i < fullereneArray.length; i++) {
             fullereneArray[i] = new CarbonNode(i + 1);
