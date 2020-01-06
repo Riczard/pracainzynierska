@@ -2,7 +2,6 @@ package kuklinski.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class CarbonNode {
 
@@ -14,6 +13,7 @@ public class CarbonNode {
     private List<Double> actualVector;
     private List<Double> previousVector;
     private List<Double> F;
+    private List<Double> externalF;
     private double E;
 
     private boolean toCalculate;
@@ -24,6 +24,7 @@ public class CarbonNode {
         this.actualVector = new ArrayList<>(3);
         this.previousVector = new ArrayList<>(3);
         this.F = new ArrayList<>(3);
+        this.externalF = new ArrayList<>(3);
         this.bonds = new Bond[3];
         fillListsWith0Elements();
     }
@@ -38,6 +39,10 @@ public class CarbonNode {
         this.F.add(0.0);
         this.F.add(0.0);
         this.F.add(0.0);
+        this.externalF.add(0.0);
+        this.externalF.add(0.0);
+        this.externalF.add(0.0);
+
     }
 
     public void calculateR0() {
@@ -72,9 +77,10 @@ public class CarbonNode {
             Fy += bond.getFy();
             Fz += bond.getFz();
         }
-        this.F.set(x, Fx);
-        this.F.set(y, Fy);
-        this.F.set(z, Fz);
+
+        this.F.set(x, Fx + externalF.get(x));
+        this.F.set(y, Fy + externalF.get(y));
+        this.F.set(z, Fz + externalF.get(z));
     }
 
     public void calculateNewPosition() {
@@ -139,26 +145,47 @@ public class CarbonNode {
         this.toCalculate = toCalculate;
     }
 
-    @Override
-    public String toString() {
-        return "CarbonNode{" +
-                "index=" + index +
-                ", actualVector=" + actualVector +
-                ", previousVector=" + previousVector +
-                ", F=" + F +
-                ", E=" + E +
-                '}' + "\n";
-    }
-
     public void setPreviousVectorSameLikeActual() {
         previousVector.set(x, actualVector.get(x));
         previousVector.set(y, actualVector.get(y));
         previousVector.set(z, actualVector.get(z));
     }
 
+    public List<Double> getExternalF() {
+        return externalF;
+    }
+
+    public void setExternalF(List<Double> externalF) {
+        this.externalF = externalF;
+    }
+
+    public void setExternalFx(double fx) {
+        this.externalF.set(x, fx);
+    }
+
+    public void setExternalFy(double fy) {
+        this.externalF.set(y, fy);
+    }
+
+    public void setExternalFz(double fz) {
+        this.externalF.set(z, fz);
+    }
+
     public void setNeighboursToCalculate(boolean b) {
         for (Bond bond : bonds) {
             bond.getCarbonNode().setToCalculate(b);
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.index + ";" +
+                this.bonds[0].getCarbonNode().getIndex() + ";" +
+                this.bonds[1].getCarbonNode().getIndex() + ";" +
+                this.bonds[2].getCarbonNode().getIndex() + ";" +
+                this.actualVector.get(x) + ", " + this.actualVector.get(y) + ", " + this.actualVector.get(z) + ";" +
+                this.previousVector.get(x) + ", " + this.previousVector.get(y) + ", " + this.previousVector.get(z) + ";" +
+                this.F.get(x) + ";" + this.F.get(y) + ";" + this.F.get(z) + ";" +
+                this.E;
     }
 }
