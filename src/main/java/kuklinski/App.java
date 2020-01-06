@@ -43,8 +43,6 @@ public class App {
         listToPrint.add(heading);
         listToPrint.add(getFullereneData(fullerene));
 
-        System.out.println(fullereneArray[13].getF());
-
         for (int i = 0; i < 500; i++) {
             listToPrint.add(i + 1 + "\n");
 
@@ -56,6 +54,7 @@ public class App {
 
             fullerene.calculateCarbonEnergy();
             fullerene.calculateTotalEnergy();
+
             String fullereneData = getFullereneData(fullerene);
             listToPrint.add(fullereneData);
         }
