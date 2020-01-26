@@ -15,6 +15,7 @@ public class CarbonNode {
     private List<Double> F;
     private List<Double> externalF;
     private double E;
+    private double totalF;
 
     private boolean toCalculate;
     private Bond[] bonds;
@@ -83,11 +84,14 @@ public class CarbonNode {
         this.F.set(z, Fz + externalF.get(z));
     }
 
+    public void calculateTotalForce() {
+        this.totalF = Math.sqrt(Math.pow(this.F.get(x), 2) + Math.pow(this.F.get(y), 2) + Math.pow(this.F.get(z), 2));
+    }
+
     public void calculateNewPosition() {
-        double p = 0.001;
-        double newX = F.get(x) * p + actualVector.get(x);
-        double newY = F.get(y) * p + actualVector.get(y);
-        double newZ = F.get(z) * p + actualVector.get(z);
+        double newX = F.get(x) * Fullerene.p + actualVector.get(x);
+        double newY = F.get(y) * Fullerene.p + actualVector.get(y);
+        double newZ = F.get(z) * Fullerene.p + actualVector.get(z);
         actualVector.set(x, newX);
         actualVector.set(y, newY);
         actualVector.set(z, newZ);
@@ -177,14 +181,18 @@ public class CarbonNode {
         }
     }
 
+    public double getTotalF() {
+        return totalF;
+    }
+
     @Override
     public String toString() {
         return this.index + ";" +
                 this.bonds[0].getCarbonNode().getIndex() + ";" +
                 this.bonds[1].getCarbonNode().getIndex() + ";" +
                 this.bonds[2].getCarbonNode().getIndex() + ";" +
-                this.actualVector.get(x) + ", " + this.actualVector.get(y) + ", " + this.actualVector.get(z) + ";" +
-                this.previousVector.get(x) + ", " + this.previousVector.get(y) + ", " + this.previousVector.get(z) + ";" +
+                this.actualVector.get(x) + "; " + this.actualVector.get(y) + "; " + this.actualVector.get(z) + ";" +
+                this.previousVector.get(x) + "; " + this.previousVector.get(y) + "; " + this.previousVector.get(z) + ";" +
                 this.F.get(x) + ";" + this.F.get(y) + ";" + this.F.get(z) + ";" +
                 this.E;
     }

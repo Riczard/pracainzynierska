@@ -34,4 +34,15 @@ public class Parsers {
         }
 
     }
+
+    public static void appendToTxt(String text) {
+        try(FileWriter fw = new FileWriter("data", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.write(text);
+        } catch (IOException e) {
+            //exception handling left as an exercise for the reader
+        }
+    }
 }

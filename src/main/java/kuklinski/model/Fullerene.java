@@ -14,7 +14,9 @@ public class Fullerene {
     private final int NEIGHBOR_2_INDEX = 7;
     private final int NEIGHBOR_3_INDEX = 8;
 
+    public static double p;
     private double totalEnergy;
+    private double totalForce;
 
     private CarbonNode[] fullereneArray;
 
@@ -61,6 +63,14 @@ public class Fullerene {
             this.totalEnergy += node.getE();
         }
         this.totalEnergy = this.totalEnergy / 2.0;
+    }
+
+    public void calculateTotalForce() {
+        this.totalForce = 0.0;
+        for (CarbonNode node : fullereneArray) {
+            node.calculateTotalForce();
+            this.totalForce += node.getTotalF();
+        }
     }
 
     public void setPrevVectorSameLikeActual() {
@@ -116,6 +126,10 @@ public class Fullerene {
         return vector;
     }
 
+    public double getTotalForce() {
+        return totalForce;
+    }
+
     public double getTotalEnergy() {
         return totalEnergy;
     }
@@ -123,4 +137,17 @@ public class Fullerene {
     public CarbonNode[] getFullereneArray() {
         return fullereneArray;
     }
+
+    public String getFullereneData() {
+        StringBuilder sb = new StringBuilder();
+
+        for (CarbonNode carbon : fullereneArray) {
+            sb.append(carbon.toString()).append(";");
+            sb.append(this.totalEnergy).append("\n");
+        }
+        String result = sb.toString();
+        sb.setLength(0);
+        return result;
+    }
+
 }
