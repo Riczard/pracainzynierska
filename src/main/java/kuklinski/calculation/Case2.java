@@ -1,10 +1,7 @@
-package kuklinski.cases;
+package kuklinski.calculation;
 
 import kuklinski.model.CarbonNode;
 import kuklinski.model.Fullerene;
-
-import java.util.LinkedList;
-import java.util.List;
 
 //  C    3    0.000000   -3.449997    0.684800    1    6   31   48
 //  C    4    2.279007   -2.579483   -0.723694    1   10   28   60
@@ -23,18 +20,21 @@ import java.util.List;
 //sciskanie symateycznych scianek
 public class Case2 {
 
-    private static double externalF = 0.1;
-
     public static void calculateCase2(Fullerene fullerene) {
-
-        List<String> listToPrint = new LinkedList<>();
-        Fullerene.p = 0.1;
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
-        setWall1(fullereneArray);
-        setWall2(fullereneArray);
+
+        double externalF = 0.1;
+        Fullerene.p = 0.01;
+        double endCondition = Math.pow(10, -2);
+
+        setWall1(fullereneArray, externalF);
+        setWall2(fullereneArray, externalF);
+
+        FullereneCalculation.calculation(fullerene, endCondition);
     }
 
-    private static void setWall1(CarbonNode[] fullereneArray) {
+
+    private static void setWall1(CarbonNode[] fullereneArray, double externalF) {
         CarbonNode c3 = fullereneArray[2];
         CarbonNode c4 = fullereneArray[3];
         CarbonNode c28 = fullereneArray[27];
@@ -59,9 +59,17 @@ public class Case2 {
 
         c60.setExternalFx(-2.34 * externalF);
         c60.setExternalFy(6.03 * externalF);
+
+        c3.calculateForce();
+        c4.calculateForce();
+        c28.calculateForce();
+        c31.calculateForce();
+        c48.calculateForce();
+        c60.calculateForce();
+
     }
 
-    private static void setWall2(CarbonNode[] fullereneArray) {
+    private static void setWall2(CarbonNode[] fullereneArray, double externalF) {
         CarbonNode c1 = fullereneArray[0];
         CarbonNode c7 = fullereneArray[6];
         CarbonNode c16 = fullereneArray[15];
@@ -86,5 +94,12 @@ public class Case2 {
 
         c58.setExternalFx(2.28 * externalF);
         c58.setExternalFy(-6.03 * externalF);
+
+        c1.calculateForce();
+        c7.calculateForce();
+        c16.calculateForce();
+        c38.calculateForce();
+        c50.calculateForce();
+        c58.calculateForce();
     }
 }

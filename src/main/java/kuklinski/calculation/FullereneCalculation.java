@@ -1,30 +1,15 @@
-package kuklinski.cases;
+package kuklinski.calculation;
 
 import kuklinski.Parsers;
-import kuklinski.model.CarbonNode;
 import kuklinski.model.Fullerene;
 
 import java.util.LinkedList;
 import java.util.List;
 
-//  C   14    0.684800    0.000000   -3.449997    1   18   39   41
-//  C   24    0.684800    0.000000    3.449997    1   23   25   51
+public class FullereneCalculation {
 
-//sciskanie przeciwleglych atomow
-public class Case1 {
-
-    public static void calculateCase2(Fullerene fullerene) {
+    public static void calculation(Fullerene fullerene, double endCondition) {
         List<String> listToPrint = new LinkedList<>();
-
-        Fullerene.p = 0.1;
-        CarbonNode[] fullereneArray = fullerene.getFullereneArray();
-        CarbonNode firstCarbon = fullereneArray[13];
-        CarbonNode secondCarbon = fullereneArray[23];
-
-        firstCarbon.setExternalFz(0.01);
-        secondCarbon.setExternalFz(-0.01);
-        firstCarbon.calculateForce();
-        secondCarbon.calculateForce();
         fullerene.calculateCarbonEnergy();
         fullerene.calculateTotalEnergy();
 
@@ -34,11 +19,11 @@ public class Case1 {
 
         fullerene.calculateTotalForce();
         double totalF = fullerene.getTotalForce();
-        System.out.println(totalF);
+        System.out.println("pierwiastek z sum sił = " + totalF);
         int i = 1;
         Parsers.createTxt(listToPrint);
 
-        while (totalF > Math.pow(10, -4)){
+        while (totalF > endCondition){
             Parsers.appendToTxt(i + "\n");
             fullerene.calculateCarbonForce();
 
@@ -55,7 +40,8 @@ public class Case1 {
             fullerene.calculateTotalForce();
             totalF = fullerene.getTotalForce();
             i++;
-            System.out.println(totalF);
+            System.out.println("pierwiastek z sum sił = " + totalF);
+            if(i > 1000000) break;
         }
     }
 }

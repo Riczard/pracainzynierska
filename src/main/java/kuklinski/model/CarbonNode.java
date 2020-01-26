@@ -17,7 +17,6 @@ public class CarbonNode {
     private double E;
     private double totalF;
 
-    private boolean toCalculate;
     private Bond[] bonds;
 
     public CarbonNode(int index) {
@@ -85,6 +84,7 @@ public class CarbonNode {
     }
 
     public void calculateTotalForce() {
+        this.totalF = 0.0;
         this.totalF = Math.sqrt(Math.pow(this.F.get(x), 2) + Math.pow(this.F.get(y), 2) + Math.pow(this.F.get(z), 2));
     }
 
@@ -141,14 +141,6 @@ public class CarbonNode {
         this.bonds = bonds;
     }
 
-    public boolean isToCalculate() {
-        return toCalculate;
-    }
-
-    public void setToCalculate(boolean toCalculate) {
-        this.toCalculate = toCalculate;
-    }
-
     public void setPreviousVectorSameLikeActual() {
         previousVector.set(x, actualVector.get(x));
         previousVector.set(y, actualVector.get(y));
@@ -173,12 +165,6 @@ public class CarbonNode {
 
     public void setExternalFz(double fz) {
         this.externalF.set(z, fz);
-    }
-
-    public void setNeighboursToCalculate(boolean b) {
-        for (Bond bond : bonds) {
-            bond.getCarbonNode().setToCalculate(b);
-        }
     }
 
     public double getTotalF() {
