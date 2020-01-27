@@ -3,6 +3,7 @@ package kuklinski.calculation;
 import kuklinski.Parsers;
 import kuklinski.model.Fullerene;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,18 +13,17 @@ public class FullereneCalculation {
         List<String> listToPrint = new LinkedList<>();
         fullerene.calculateCarbonEnergy();
         fullerene.calculateTotalEnergy();
-
-        String heading = "indexWęzła;sąsiad1;sąsiad2;sąsiad3;APx;APy;APz;PPx;PPy;PPz;Fx;Fy;Fz;Energia;EnergiaCałkowita\n";
+        String heading = "indexWęzła;sąsiad1;sąsiad2;sąsiad3;APx;APy;APz;r1;r2;r3;Fx;Fy;Fz;F1;F2;F3;Energia;EnergiaCałkowita\n";
         listToPrint.add(heading);
         listToPrint.add(fullerene.getFullereneData());
 
         fullerene.calculateTotalForce();
         double totalF = fullerene.getTotalForce();
-        System.out.println("pierwiastek z sum sił = " + totalF);
+//        System.out.println("pierwiastek z sum sił = " + totalF);
         int i = 1;
         Parsers.createTxt(listToPrint);
 
-        while (totalF > endCondition){
+        while (totalF > endCondition) {
             Parsers.appendToTxt(i + "\n");
             fullerene.calculateCarbonForce();
 
@@ -40,8 +40,8 @@ public class FullereneCalculation {
             fullerene.calculateTotalForce();
             totalF = fullerene.getTotalForce();
             i++;
-            System.out.println("pierwiastek z sum sił = " + totalF);
-            if(i > 1000000) break;
+//            System.out.println("pierwiastek z sum sił = " + totalF);
+            if (i > 100) break;
         }
     }
 }

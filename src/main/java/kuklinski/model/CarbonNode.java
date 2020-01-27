@@ -78,6 +78,8 @@ public class CarbonNode {
             Fz += bond.getFz();
         }
 
+//        System.out.println("Carbon:" + this.getIndex() + "Fx:" + (Fx + externalF.get(x)) + "; Fy:" + (Fy + externalF.get(y)) + "; Fz:" + (Fz+externalF.get(z)));
+
         this.F.set(x, Fx + externalF.get(x));
         this.F.set(y, Fy + externalF.get(y));
         this.F.set(z, Fz + externalF.get(z));
@@ -147,6 +149,21 @@ public class CarbonNode {
         previousVector.set(z, actualVector.get(z));
     }
 
+    private double getF1() {
+        CarbonNode C1 = bonds[0].getCarbonNode();
+        return Math.sqrt(Math.pow(Fx() - C1.Fx(),2) + Math.pow(Fy() - C1.Fy(),2) + Math.pow(Fz() - C1.Fz(),2));
+    }
+
+    private double getF2() {
+        CarbonNode C2 = bonds[1].getCarbonNode();
+        return Math.sqrt(Math.pow(Fx() - C2.Fx(),2) + Math.pow(Fy() - C2.Fy(),2) + Math.pow(Fz() - C2.Fz(),2));
+    }
+
+    private double getF3() {
+        CarbonNode C3 = bonds[2].getCarbonNode();
+        return Math.sqrt(Math.pow(Fx() - C3.Fx(),2) + Math.pow(Fy() - C3.Fy(),2) + Math.pow(Fz() - C3.Fz(),2));
+    }
+
     public List<Double> getExternalF() {
         return externalF;
     }
@@ -168,7 +185,31 @@ public class CarbonNode {
     }
 
     public double getTotalF() {
-        return totalF;
+        return this.totalF;
+    }
+
+    public double Fx() {
+        return this.F.get(x);
+    }
+
+    public double Fy() {
+        return this.F.get(y);
+    }
+
+    public double Fz() {
+        return this.F.get(z);
+    }
+
+    public double r1() {
+        return this.bonds[0].getR();
+    }
+
+    public double r2() {
+        return this.bonds[1].getR();
+    }
+
+    public double r3() {
+        return this.bonds[2].getR();
     }
 
     @Override
@@ -178,8 +219,9 @@ public class CarbonNode {
                 this.bonds[1].getCarbonNode().getIndex() + ";" +
                 this.bonds[2].getCarbonNode().getIndex() + ";" +
                 this.actualVector.get(x) + "; " + this.actualVector.get(y) + "; " + this.actualVector.get(z) + ";" +
-                this.previousVector.get(x) + "; " + this.previousVector.get(y) + "; " + this.previousVector.get(z) + ";" +
+                r1() + ";" + r2() + ";" + r3() + ";" +
                 this.F.get(x) + ";" + this.F.get(y) + ";" + this.F.get(z) + ";" +
+                getF1() + ";" + getF2() + ";" + getF3() + ";" +
                 this.E;
     }
 }

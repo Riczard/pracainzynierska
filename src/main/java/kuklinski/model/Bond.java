@@ -18,6 +18,8 @@ public class Bond {
     private double lennardPotential;
 
     public Bond(CarbonNode carbonNode) {
+        this.r0 = 0.0;
+        this.r = 0.0;
         this.carbonNode = carbonNode;
         this.F = new ArrayList<>(3);
         createEmptyFList();
@@ -56,7 +58,7 @@ public class Bond {
         } else {
             epsilon = 4.548;
         }
-        this.energy = epsilon * (Math.pow(this.r0 / r, 12) - 2 * (Math.pow(this.r0 / r, 6)));
+        this.energy = epsilon * (Math.pow((this.r0 / r), 12) - 2 * (Math.pow((this.r0 / r), 6)));
     }
 
     public void calculateForce(List<Double> vector) {
@@ -80,9 +82,7 @@ public class Bond {
     }
 
     private void calculateLennardPotential() {
-        double sigma = r0 * Math.pow(2, (-1 / 6.0));
-        this.lennardPotential = 6 * Math.pow(r0, 6) / Math.pow(r, 14) * (-Math.pow(r0, 6) + Math.pow(r, 6));
-//        return 6* Math.pow(sigma, 6) / Math.pow(r, 14) * (-2 * Math.pow(sigma, 6) + Math.pow(r, 6));
+        this.lennardPotential = (12/(r0*r0)) * (Math.pow((r0/r),14)-(Math.pow((r0/r),8)));
     }
 
     public CarbonNode getCarbonNode() {
@@ -135,6 +135,11 @@ public class Bond {
 
     public void setF(List<Double> f) {
         F = f;
+    }
+
+    public static double roundAvoid(double value, int places) {
+        double scale = Math.pow(10, places);
+        return Math.round(value * scale) / scale;
     }
 
     @Override

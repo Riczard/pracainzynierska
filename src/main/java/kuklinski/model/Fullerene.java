@@ -1,6 +1,7 @@
 package kuklinski.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Fullerene {
@@ -127,10 +128,6 @@ public class Fullerene {
 
     public double getTotalForce() {
         return totalForce;
-    }
-
-    public static void setP(double p) {
-        Fullerene.p = p;
     }
 
     public double getTotalEnergy() {

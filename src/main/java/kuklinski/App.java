@@ -1,8 +1,11 @@
 package kuklinski;
 
-import kuklinski.calculation.Case2;
+import kuklinski.calculation.Case1;
+
+import kuklinski.model.CarbonNode;
 import kuklinski.model.Fullerene;
 
+import java.util.Arrays;
 import java.util.List;
 
 //  C   14    0.684800    0.000000   -3.449997    1   18   39   41
@@ -22,11 +25,10 @@ public class App {
         fullerene.fill(data);
         fullerene.calculateR0();
         fullerene.calculateR();
-
         //prosze wybrac tylko 1 case, reszte zakomentowac
 
-//        Case1.calculateCase1(fullerene);
-        Case2.calculateCase2(fullerene);
+        Case1.calculateCase1(fullerene);
+//        Case2.calculateCase2(fullerene);
     }
 
 }
