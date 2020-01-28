@@ -78,8 +78,6 @@ public class CarbonNode {
             Fz += bond.getFz();
         }
 
-//        System.out.println("Carbon:" + this.getIndex() + "Fx:" + (Fx + externalF.get(x)) + "; Fy:" + (Fy + externalF.get(y)) + "; Fz:" + (Fz+externalF.get(z)));
-
         this.F.set(x, Fx + externalF.get(x));
         this.F.set(y, Fy + externalF.get(y));
         this.F.set(z, Fz + externalF.get(z));
@@ -150,18 +148,18 @@ public class CarbonNode {
     }
 
     private double getF1() {
-        CarbonNode C1 = bonds[0].getCarbonNode();
-        return Math.sqrt(Math.pow(Fx() - C1.Fx(),2) + Math.pow(Fy() - C1.Fy(),2) + Math.pow(Fz() - C1.Fz(),2));
+        List<Double> f = bonds[0].getF();
+        return Math.sqrt(Math.pow(f.get(x),2) + Math.pow(f.get(y),2) + Math.pow(f.get(z),2));
     }
 
     private double getF2() {
-        CarbonNode C2 = bonds[1].getCarbonNode();
-        return Math.sqrt(Math.pow(Fx() - C2.Fx(),2) + Math.pow(Fy() - C2.Fy(),2) + Math.pow(Fz() - C2.Fz(),2));
+        List<Double> f = bonds[1].getF();
+        return Math.sqrt(Math.pow(f.get(x),2) + Math.pow(f.get(y),2) + Math.pow(f.get(z),2));
     }
 
     private double getF3() {
-        CarbonNode C3 = bonds[2].getCarbonNode();
-        return Math.sqrt(Math.pow(Fx() - C3.Fx(),2) + Math.pow(Fy() - C3.Fy(),2) + Math.pow(Fz() - C3.Fz(),2));
+        List<Double> f = bonds[2].getF();
+        return Math.sqrt(Math.pow(f.get(x),2) + Math.pow(f.get(y),2) + Math.pow(f.get(z),2));
     }
 
     public List<Double> getExternalF() {
@@ -212,6 +210,18 @@ public class CarbonNode {
         return this.bonds[2].getR();
     }
 
+    public String getF1Bond() {
+        return bonds[0].getFx() + ";" + bonds[0].getFy() + ";" + bonds[0].getFz();
+    }
+
+    public String getF2Bond() {
+        return bonds[1].getFx() + ";" + bonds[1].getFy() + ";" + bonds[1].getFz();
+    }
+
+    public String getF3Bond() {
+        return bonds[2].getFx() + ";" + bonds[2].getFy() + ";" + bonds[2].getFz();
+    }
+
     @Override
     public String toString() {
         return this.index + ";" +
@@ -222,6 +232,7 @@ public class CarbonNode {
                 r1() + ";" + r2() + ";" + r3() + ";" +
                 this.F.get(x) + ";" + this.F.get(y) + ";" + this.F.get(z) + ";" +
                 getF1() + ";" + getF2() + ";" + getF3() + ";" +
+                getF1Bond() + ";" + getF2Bond() + ";" + getF3Bond() + ";" +
                 this.E;
     }
 }

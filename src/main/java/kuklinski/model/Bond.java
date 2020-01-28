@@ -32,7 +32,8 @@ public class Bond {
     }
 
     public void calculateR0(List<Double> vector) {
-        this.r0 = calculateDistance(vector, carbonNode.getActualVector());
+        double result = calculateDistance(vector, carbonNode.getActualVector());
+        this.r0 = roundAvoid(result,4);
     }
 
     public void calculateR(List<Double> vector) {
