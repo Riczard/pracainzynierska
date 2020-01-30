@@ -15,7 +15,6 @@ public class Case1 {
     public static void calculateCase1(Fullerene fullerene) {
 
         Fullerene.p = 0.002;
-        double endCondition = Math.pow(10, -4);
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
         CarbonNode firstCarbon = fullereneArray[13];
         CarbonNode secondCarbon = fullereneArray[23];
@@ -24,6 +23,6 @@ public class Case1 {
         secondCarbon.setExternalFz(-0.1);
         firstCarbon.calculateForce();
         secondCarbon.calculateForce();
-        FullereneCalculation.calculation(fullerene, endCondition);
+        FullereneCalculation.calculation(fullerene, 1);
     }
 }

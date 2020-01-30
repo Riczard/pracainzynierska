@@ -85,6 +85,16 @@ public class Fullerene {
         }
     }
 
+    public double getMaxForce() {
+        double maxF = 0.0;
+        for (CarbonNode node : fullereneArray) {
+            if(node.getTotalF() > maxF) {
+                maxF = node.getTotalF();
+            }
+        }
+        return maxF;
+    }
+
     private void createEmptyCarbons() {
         for (int i = 0; i < fullereneArray.length; i++) {
             fullereneArray[i] = new CarbonNode(i + 1);

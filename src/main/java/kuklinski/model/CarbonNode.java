@@ -210,18 +210,6 @@ public class CarbonNode {
         return this.bonds[2].getR();
     }
 
-    public String getF1Bond() {
-        return bonds[0].getFx() + ";" + bonds[0].getFy() + ";" + bonds[0].getFz();
-    }
-
-    public String getF2Bond() {
-        return bonds[1].getFx() + ";" + bonds[1].getFy() + ";" + bonds[1].getFz();
-    }
-
-    public String getF3Bond() {
-        return bonds[2].getFx() + ";" + bonds[2].getFy() + ";" + bonds[2].getFz();
-    }
-
     @Override
     public String toString() {
         return this.index + ";" +
@@ -232,7 +220,6 @@ public class CarbonNode {
                 r1() + ";" + r2() + ";" + r3() + ";" +
                 this.F.get(x) + ";" + this.F.get(y) + ";" + this.F.get(z) + ";" +
                 getF1() + ";" + getF2() + ";" + getF3() + ";" +
-                getF1Bond() + ";" + getF2Bond() + ";" + getF3Bond() + ";" +
                 this.E;
     }
 }

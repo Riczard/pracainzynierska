@@ -32,8 +32,7 @@ public class Bond {
     }
 
     public void calculateR0(List<Double> vector) {
-        double result = calculateDistance(vector, carbonNode.getActualVector());
-        this.r0 = roundAvoid(result,4);
+        this.r0 = calculateDistance(vector, carbonNode.getActualVector());
     }
 
     public void calculateR(List<Double> vector) {
@@ -54,7 +53,7 @@ public class Bond {
 
     public void calculateEnergy() {
         double epsilon;
-        if (r0 == 1.3696) {
+        if (r0 < 1.4) {
             epsilon = 4.858;
         } else {
             epsilon = 4.548;
@@ -70,9 +69,9 @@ public class Bond {
         } else {
             epsilon = 4.548;
         }
-        double deltaX = carbonNode.getActualVector().get(x) - vector.get(x);
-        double deltaY = carbonNode.getActualVector().get(y) - vector.get(y);
-        double deltaZ = carbonNode.getActualVector().get(z) - vector.get(z);
+        double deltaX = -1.0 * (carbonNode.getActualVector().get(x) - vector.get(x));
+        double deltaY = -1.0 * (carbonNode.getActualVector().get(y) - vector.get(y));
+        double deltaZ = -1.0 * (carbonNode.getActualVector().get(z) - vector.get(z));
         double Fx = this.lennardPotential * deltaX * epsilon;
         double Fy = this.lennardPotential * deltaY * epsilon;
         double Fz = this.lennardPotential * deltaZ * epsilon;
@@ -136,11 +135,6 @@ public class Bond {
 
     public void setF(List<Double> f) {
         F = f;
-    }
-
-    public static double roundAvoid(double value, int places) {
-        double scale = Math.pow(10, places);
-        return Math.round(value * scale) / scale;
     }
 
     @Override
