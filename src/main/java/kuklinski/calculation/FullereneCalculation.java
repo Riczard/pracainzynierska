@@ -19,10 +19,9 @@ public class FullereneCalculation {
 
         fullerene.calculateTotalForce();
         double totalF = fullerene.getTotalForce();
-        int i = 1;
+//        int i = 1;
         Parsers.createTxt(listToPrint);
-
-        while (totalF > Math.pow(10,-4)) {
+        for(int i = 0; i< 10000000; i++) {
 
             fullerene.calculateCarbonForce();
 
@@ -43,7 +42,7 @@ public class FullereneCalculation {
             fullerene.calculateTotalForce();
             totalF = fullerene.getTotalForce();
             i++;
-            if (i > 10000000) break;
+//            if (i > 10000000) break;
         }
     }
 }

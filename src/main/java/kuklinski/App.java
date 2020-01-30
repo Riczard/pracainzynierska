@@ -2,6 +2,8 @@ package kuklinski;
 
 import kuklinski.calculation.Case1;
 
+import kuklinski.calculation.Case2;
+import kuklinski.calculation.Case3;
 import kuklinski.model.CarbonNode;
 import kuklinski.model.Fullerene;
 
@@ -27,8 +29,9 @@ public class App {
         fullerene.calculateR();
         //prosze wybrac tylko 1 case, reszte zakomentowac
 
-        Case1.calculateCase1(fullerene);
+//        Case1.calculateCase1(fullerene);
 //        Case2.calculateCase2(fullerene);
+        Case3.calculateCase3(fullerene);
     }
 
 }
