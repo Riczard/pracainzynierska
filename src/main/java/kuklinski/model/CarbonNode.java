@@ -11,18 +11,21 @@ public class CarbonNode {
 
     private int index;
     private List<Double> actualVector;
-    private List<Double> previousVector;
+    private List<Double> startVector;
     private List<Double> F;
     private List<Double> externalF;
     private double E;
     private double totalF;
+    private double maxF;
+    private double lengthF;
+    private double wayLength;
 
     private Bond[] bonds;
 
     public CarbonNode(int index) {
         this.index = index;
         this.actualVector = new ArrayList<>(3);
-        this.previousVector = new ArrayList<>(3);
+        this.startVector = new ArrayList<>(3);
         this.F = new ArrayList<>(3);
         this.externalF = new ArrayList<>(3);
         this.bonds = new Bond[3];
@@ -33,9 +36,9 @@ public class CarbonNode {
         this.actualVector.add(0.0);
         this.actualVector.add(0.0);
         this.actualVector.add(0.0);
-        this.previousVector.add(0.0);
-        this.previousVector.add(0.0);
-        this.previousVector.add(0.0);
+        this.startVector.add(0.0);
+        this.startVector.add(0.0);
+        this.startVector.add(0.0);
         this.F.add(0.0);
         this.F.add(0.0);
         this.F.add(0.0);
@@ -78,14 +81,30 @@ public class CarbonNode {
             Fz += bond.getFz();
         }
 
+        double ex,ey,ez;
+        ex = externalF.get(x);
+        ey = externalF.get(y);
+        ez = externalF.get(z);
         this.F.set(x, Fx + externalF.get(x));
         this.F.set(y, Fy + externalF.get(y));
         this.F.set(z, Fz + externalF.get(z));
+
+        this.calculateLengthOfForce();
     }
+
+    public void calculateLengthOfForce() {
+        this.lengthF = Math.sqrt(Math.pow(this.F.get(x), 2) + Math.pow(this.F.get(y), 2) + Math.pow(this.F.get(z), 2));
+    }
+
 
     public void calculateTotalForce() {
         this.totalF = 0.0;
         this.totalF = Math.sqrt(Math.pow(this.F.get(x), 2) + Math.pow(this.F.get(y), 2) + Math.pow(this.F.get(z), 2));
+    }
+
+    public void calculateMaxForce() {
+        this.maxF = 0.0;
+        this.maxF = Math.sqrt(Math.pow(this.F.get(x), 2) + Math.pow(this.F.get(y), 2) + Math.pow(this.F.get(z), 2));
     }
 
     public void calculateNewPosition() {
@@ -96,6 +115,15 @@ public class CarbonNode {
         actualVector.set(y, newY);
         actualVector.set(z, newZ);
     }
+
+    public void calculateWayLength() {
+        wayLength = Math.sqrt(Math.pow(actualVector.get(x)-startVector.get(x),2)+Math.pow(actualVector.get(y)-startVector.get(y),2)+Math.pow(actualVector.get(z)-startVector.get(z),2));
+    }
+
+    public double getWayLength() {
+        return wayLength;
+    }
+
 
     public int getIndex() {
         return index;
@@ -109,16 +137,20 @@ public class CarbonNode {
         this.actualVector = actualVector;
     }
 
-    public List<Double> getPreviousVector() {
-        return previousVector;
+    public List<Double> getStartVector() {
+        return startVector;
     }
 
-    public void setPreviousVector(List<Double> previousVector) {
-        this.previousVector = previousVector;
+    public void setStartVector(List<Double> startVector) {
+        this.startVector = startVector;
     }
 
     public List<Double> getF() {
         return F;
+    }
+
+    public double getLengthF() {
+        return lengthF;
     }
 
     public void setF(List<Double> f) {
@@ -141,10 +173,10 @@ public class CarbonNode {
         this.bonds = bonds;
     }
 
-    public void setPreviousVectorSameLikeActual() {
-        previousVector.set(x, actualVector.get(x));
-        previousVector.set(y, actualVector.get(y));
-        previousVector.set(z, actualVector.get(z));
+    public void setStartVectorSameLikeActual() {
+        startVector.set(x, actualVector.get(x));
+        startVector.set(y, actualVector.get(y));
+        startVector.set(z, actualVector.get(z));
     }
 
     private double getF1() {
@@ -185,7 +217,9 @@ public class CarbonNode {
     public double getTotalF() {
         return this.totalF;
     }
-
+    public double getMaxF() {
+        return this.maxF;
+    }
     public double Fx() {
         return this.F.get(x);
     }
@@ -217,9 +251,11 @@ public class CarbonNode {
                 this.bonds[1].getCarbonNode().getIndex() + ";" +
                 this.bonds[2].getCarbonNode().getIndex() + ";" +
                 this.actualVector.get(x) + "; " + this.actualVector.get(y) + "; " + this.actualVector.get(z) + ";" +
+                Math.sqrt(Math.pow(this.actualVector.get(x),2) + Math.pow(this.actualVector.get(y),2) + Math.pow(this.actualVector.get(z),2))+ ";" +
                 r1() + ";" + r2() + ";" + r3() + ";" +
+                this.wayLength + ";" +
+                this.E+ ";" +
                 this.F.get(x) + ";" + this.F.get(y) + ";" + this.F.get(z) + ";" +
-                getF1() + ";" + getF2() + ";" + getF3() + ";" +
-                this.E;
+                getF1() + ";" + getF2() + ";" + getF3();
     }
 }
