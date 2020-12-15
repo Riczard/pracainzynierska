@@ -11,14 +11,14 @@ public class Case3 {
     private static int y = 1;
     private static int z = 2;
 
+    public static void setExternalForce(Fullerene fullerene, double lenghtOfexternalF, boolean stretching) {
 
-    public static void calculateCase3(Fullerene fullerene) {
-        double externalF = 0.1;
-        Fullerene.p = 0.002;
+        int direct;
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
         for (CarbonNode node : fullereneArray) {
             List<Double> actualVector = node.getActualVector();
             double v = caluclateVlength(node);
+            double externalF = lenghtOfexternalF*(stretching? -1: 1);
 
             double externalFx = (actualVector.get(x) / v ) * externalF;
             double externalFy = (actualVector.get(y) / v ) * externalF;
@@ -27,10 +27,18 @@ public class Case3 {
             node.setExternalFx(externalFx);
             node.setExternalFy(externalFy);
             node.setExternalFz(externalFz);
-
+            node.calculateForce();
         }
+    }
 
-        FullereneCalculation.calculation(fullerene, 1);
+    public static void calculateCase3(Fullerene fullerene) {
+
+        double lenghtOfexternalF = 0.1;
+        boolean stretching = false;
+        int printStep = 10000000;
+        Fullerene.p = 0.002;
+        setExternalForce(fullerene, lenghtOfexternalF, stretching);
+        FullereneCalculation.calculation(fullerene, lenghtOfexternalF, stretching, printStep);
     }
 
     private static double caluclateVlength(CarbonNode node) {
