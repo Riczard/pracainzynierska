@@ -3,6 +3,8 @@ package kuklinski.calculation;
 import kuklinski.model.CarbonNode;
 import kuklinski.model.Fullerene;
 
+import java.util.List;
+
 //  C    3    0.000000   -3.449997    0.684800    1    6   31   48
 //  C    4    2.279007   -2.579483   -0.723694    1   10   28   60
 //  C   28    2.279007   -2.579483    0.723694    1    4   31   54
@@ -20,21 +22,27 @@ import kuklinski.model.Fullerene;
 //sciskanie symateycznych scianek
 public class Case2 {
 
-    public static void calculateCase2(Fullerene fullerene) {
+    public static void setExternalForce(Fullerene fullerene, double lenghtOfexternalF, boolean stretching) {
+
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
 
-        double externalF = 0.1;
-        Fullerene.p = 0.01;
-        double endCondition = Math.pow(10, -2);
+        setWall1(fullereneArray, lenghtOfexternalF, stretching);
+        setWall2(fullereneArray, lenghtOfexternalF, stretching);
+    }
 
-        setWall1(fullereneArray, externalF);
-        setWall2(fullereneArray, externalF);
+    public static void calculateCase2(Fullerene fullerene) {
 
-        FullereneCalculation.calculation(fullerene, endCondition);
+        double lenghtOfexternalF = 0.001;
+        boolean stretching = false;//true;
+        int printStep = 10000000;
+
+        Fullerene.p = 0.002;
+        setExternalForce(fullerene, lenghtOfexternalF, stretching);
+        FullereneCalculation.calculation(fullerene, lenghtOfexternalF, stretching, printStep);
     }
 
 
-    private static void setWall1(CarbonNode[] fullereneArray, double externalF) {
+    private static void setWall1(CarbonNode[] fullereneArray, double lenghtOfexternalF, boolean stretching) {
         CarbonNode c3 = fullereneArray[2];
         CarbonNode c4 = fullereneArray[3];
         CarbonNode c28 = fullereneArray[27];
@@ -42,23 +50,27 @@ public class Case2 {
         CarbonNode c48 = fullereneArray[47];
         CarbonNode c60 = fullereneArray[59];
 
-        c3.setExternalFx(-2.28 * externalF);
-        c3.setExternalFy(6.03 * externalF);
+        double externalF = lenghtOfexternalF*(stretching? 1: -1);
 
-        c4.setExternalFx(-2.28 * externalF);
-        c4.setExternalFy(6.03 * externalF);
+        double fx=0.356825948, fy=-0.934170885;
 
-        c28.setExternalFx(-2.28 * externalF);
-        c28.setExternalFy(6.03 * externalF);
+        c3.setExternalFx(fx * externalF);
+        c3.setExternalFy(fy * externalF);
 
-        c31.setExternalFx(-2.34 * externalF);
-        c31.setExternalFy(6.01 * externalF);
+        c4.setExternalFx(fx * externalF);
+        c4.setExternalFy(fy * externalF);
 
-        c48.setExternalFx(-2.28 * externalF);
-        c48.setExternalFy(6.03 * externalF);
+        c28.setExternalFx(fx * externalF);
+        c28.setExternalFy(fy * externalF);
 
-        c60.setExternalFx(-2.34 * externalF);
-        c60.setExternalFy(6.03 * externalF);
+        c31.setExternalFx(fx * externalF);
+        c31.setExternalFy(fy * externalF);
+
+        c48.setExternalFx(fx * externalF);
+        c48.setExternalFy(fy * externalF);
+
+        c60.setExternalFx(fx * externalF);
+        c60.setExternalFy(fy * externalF);
 
         c3.calculateForce();
         c4.calculateForce();
@@ -69,13 +81,16 @@ public class Case2 {
 
     }
 
-    private static void setWall2(CarbonNode[] fullereneArray, double externalF) {
+    private static void setWall2(CarbonNode[] fullereneArray, double lenghtOfexternalF, boolean stretching) {
         CarbonNode c1 = fullereneArray[0];
         CarbonNode c7 = fullereneArray[6];
         CarbonNode c16 = fullereneArray[15];
         CarbonNode c38 = fullereneArray[37];
         CarbonNode c50 = fullereneArray[49];
         CarbonNode c58 = fullereneArray[58];
+
+        double externalF = lenghtOfexternalF*(stretching? 1: -1);
+        double fx=-0.356825948, fy=0.934170885;
 
         c1.setExternalFx(2.28 * externalF);
         c1.setExternalFy(-6.03 * externalF);
