@@ -14,9 +14,15 @@ public class Fullerene {
     private final int NEIGHBOR_2_INDEX = 7;
     private final int NEIGHBOR_3_INDEX = 8;
 
+    private final int x = 0;
+    private final int y = 1;
+    private final int z = 2;
+
     public static double p;
     private double totalEnergy;
     private double totalForce;
+    private double maxForce;
+    private double maxWayLength;
 
     private CarbonNode[] fullereneArray;
 
@@ -52,8 +58,11 @@ public class Fullerene {
     }
 
     public void calculateCarbonForce() {
+        this.maxForce = 0.0;
         for (CarbonNode node : fullereneArray) {
             node.calculateForce();
+            if ( maxForce < node.getLengthF() )
+                this.maxForce = node.getLengthF();
         }
     }
 
@@ -73,9 +82,9 @@ public class Fullerene {
         }
     }
 
-    public void setPrevVectorSameLikeActual() {
+    public void setStartVector() {
         for (CarbonNode node : fullereneArray) {
-            node.setPreviousVectorSameLikeActual();
+            node.setStartVectorSameLikeActual();
         }
     }
 
@@ -85,14 +94,21 @@ public class Fullerene {
         }
     }
 
-    public double getMaxForce() {
-        double maxF = 0.0;
+    public void calculateMaxWayLength() {
+        maxWayLength=0.0;
         for (CarbonNode node : fullereneArray) {
-            if(node.getTotalF() > maxF) {
-                maxF = node.getTotalF();
-            }
+            node.calculateWayLength();
+            if ( maxWayLength < node.getWayLength() )
+                maxWayLength = node.getWayLength();
         }
-        return maxF;
+    }
+
+    public double getMaxWayLength() {
+        return maxWayLength;
+    }
+
+    public double getMaxForce() {
+        return maxForce;
     }
 
     private void createEmptyCarbons() {
@@ -136,6 +152,15 @@ public class Fullerene {
         return vector;
     }
 
+    public double getRAverage() {
+        double R = 0;
+        for (CarbonNode carbon : fullereneArray) {
+            R += Math.sqrt(Math.pow(carbon.getActualVector().get(x),2) + Math.pow(carbon.getActualVector().get(y),2) + Math.pow(carbon.getActualVector().get(z),2));
+        }
+        R /= 60;
+        return R;
+    }
+
     public double getTotalForce() {
         return totalForce;
     }
@@ -148,12 +173,24 @@ public class Fullerene {
         return fullereneArray;
     }
 
+    public String getEnergyData(double lengthOfExternalForceWithSign) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(lengthOfExternalForceWithSign).append(";");
+        sb.append(this.totalEnergy).append(";");
+        sb.append(this.getRAverage()).append("\n");
+
+        String result = sb.toString();
+        sb.setLength(0);
+        return result;
+    }
+
     public String getFullereneData() {
         StringBuilder sb = new StringBuilder();
 
         for (CarbonNode carbon : fullereneArray) {
             sb.append(carbon.toString()).append(";");
-            sb.append(this.totalEnergy).append("\n");
+            sb.append(this.totalEnergy).append(";");
+            sb.append(this.getRAverage()).append("\n");
         }
         String result = sb.toString();
         sb.setLength(0);
