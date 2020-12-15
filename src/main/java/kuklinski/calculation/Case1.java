@@ -12,17 +12,28 @@ import java.util.Arrays;
 //sciskanie przeciwleglych atomow
 public class Case1 {
 
-    public static void calculateCase1(Fullerene fullerene) {
-
-        Fullerene.p = 0.002;
+    public static void setExternalForce(Fullerene fullerene, double lenghtOfexternalF, boolean stretching) {
         CarbonNode[] fullereneArray = fullerene.getFullereneArray();
         CarbonNode firstCarbon = fullereneArray[13];
         CarbonNode secondCarbon = fullereneArray[23];
 
-        firstCarbon.setExternalFz(0.1);
-        secondCarbon.setExternalFz(-0.1);
+        double externalF = lenghtOfexternalF*(stretching? 1: -1);
+
+        firstCarbon.setExternalFz(externalF);
+        secondCarbon.setExternalFz(-externalF);
         firstCarbon.calculateForce();
         secondCarbon.calculateForce();
-        FullereneCalculation.calculation(fullerene, 1);
+    }
+
+
+    public static void calculateCase1(Fullerene fullerene) {
+
+        double lenghtOfexternalF = 0.001;
+        boolean stretching = false;//true;
+        int printStep = 10000000;
+
+        Fullerene.p = 0.0025;
+        setExternalForce(fullerene, lenghtOfexternalF, stretching);
+        FullereneCalculation.calculation(fullerene, lenghtOfexternalF, stretching, printStep);
     }
 }
